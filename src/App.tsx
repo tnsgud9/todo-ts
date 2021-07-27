@@ -1,7 +1,7 @@
 import React from "react";
-
+import Todo from "./pages/Todo";
 const App = () => {
-  return <h1> hello world! </h1>;
+  return <Todo />;
 };
 
 export default App;
