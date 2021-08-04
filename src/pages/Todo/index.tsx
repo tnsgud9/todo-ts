@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import TodoCreate from "./components/TodoCreate";
 import TodoList from "./components/TodoList";
-const Todo = () => {
+import { Todo } from "./types/todo";
+import { ThemeProvider } from "styled-components";
+import { theme } from "./styles/theme";
+const TodoIndex = () => {
   return (
     <div>
       <h1>ToDo List</h1>
@@ -11,4 +14,4 @@ const Todo = () => {
   );
 };
 
-export default Todo;
+export default TodoIndex;
