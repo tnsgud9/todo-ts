@@ -1,24 +1,30 @@
-import React, { ReactElement, useState } from "react";
+import React, { useContext } from "react";
 import TodoItem from "./TodoItem";
-import { Todo } from "../types/todo";
+import { TodoConsumer, TodoContext } from "../context/TodoContext";
 
-const TodoList = (): ReactElement => {
-  const todos = [
-    { id: 1, todo: "Todo 1", checked: false },
-    { id: 2, todo: "Todo 2", checked: false },
-    { id: 3, todo: "Todo 3", checked: false },
-    { id: 4, todo: "Todo 4", checked: false },
-  ];
-
+const TodoList = React.memo(() => {
+  const todoContext = useContext(TodoContext);
+  const { state } = useContext(TodoContext);
+  console.log("TODOLIST", todoContext);
+  return <div>{state.todoContext.id}</div>;
   return (
-    <div>
-      {todos.map((todos) => {
-        return (
-          <TodoItem id={todos.id} todo={todos.todo} checked={todos.checked} />
-        );
-      })}
-    </div>
+    <>
+      <TodoConsumer>
+        {(value) =>
+          value.state.todoContext.todoList.map(({ id, todo, checked }) => {
+            return <TodoItem id={id} todo={todo} checked={checked} />;
+          })
+        }
+      </TodoConsumer>
+      <hr />
+      {todoContext.state.todoContext.id}
+      <div>
+        {todoContext.state.todoContext.todoList.map(({ id, todo, checked }) => {
+          return <TodoItem id={id} todo={todo} checked={checked} />;
+        })}
+      </div>
+    </>
   );
-};
+});
 
 export default TodoList;

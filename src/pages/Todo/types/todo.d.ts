@@ -6,5 +6,10 @@ export type Todo = {
 
 export type TodoStorage = {
   id: number;
-  todoList: todo[];
+  todoList: Todo[];
+};
+
+export type TodoContextT = {
+  todoContext: TodoStorage | null;
+  updateTodoContext?: (e?: TodoStorage) => void;
 };

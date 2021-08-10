@@ -1,16 +1,20 @@
-import React, { useState } from "react";
+import { useEffect } from "react";
 import TodoCreate from "./components/TodoCreate";
 import TodoList from "./components/TodoList";
-import { Todo } from "./types/todo";
-import { ThemeProvider } from "styled-components";
-import { theme } from "./styles/theme";
+import { TodoProvider } from "./context/TodoContext";
+
 const TodoIndex = () => {
+  useEffect(() => {
+    console.log("hello world");
+  });
   return (
-    <div>
-      <h1>ToDo List</h1>
-      <TodoCreate />
-      <TodoList />
-    </div>
+    <>
+      <TodoProvider>
+        <h1>ToDo List</h1>
+        <TodoCreate />
+        <TodoList />
+      </TodoProvider>
+    </>
   );
 };
 
