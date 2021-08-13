@@ -4,9 +4,6 @@ import TodoList from "./components/TodoList";
 import { TodoProvider } from "./context/TodoContext";
 
 const TodoIndex = () => {
-  useEffect(() => {
-    console.log("hello world");
-  });
   return (
     <>
       <TodoProvider>

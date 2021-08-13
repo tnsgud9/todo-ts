@@ -21,15 +21,19 @@ const TodoProvider = ({ children }: Props): JSX.Element => {
   console.log("TodoProvider Created.");
   const [todoContext, setTodoContext] = useState(initProviderTodoContext);
   const addTodo = (text: string): void => {
-    const context = todoContext;
+    const context = Object.assign({}, todoContext);
+    console.log("OBEJECT ASSIGN :", context);
     context.id += 1;
-    context.todoList.push({ id: context.id, todo: text, checked: false });
-    console.log(context);
+    context.todoList.push({
+      id: context.id,
+      todo: text,
+      checked: false,
+    });
+    console.log("Context :", context);
     localStorage.setItem("Todos", JSON.stringify(context));
     setTodoContext(context);
-    console.log("context", context);
   };
-
+  // TODO: Add Remove Todo Object
   const value: TodoContextType = {
     state: { todoContext: todoContext },
     action: { addTodo: addTodo },

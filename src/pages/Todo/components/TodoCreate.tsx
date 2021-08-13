@@ -9,7 +9,8 @@ const TodoCreate = () => {
     setState(e.target.value);
   };
   const KeyEventHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key == "enter") {
+    if (e.key == "Enter") {
+      console.log("ENTER PRESSED");
       TodoAdd();
     }
   };
