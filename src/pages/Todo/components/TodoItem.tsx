@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Todo } from "../types/todo";
 import styled from "styled-components";
+import { TodoContext } from "../context/TodoContext";
 
 const TodoItem = ({ id, todo, checked }: Todo) => {
+  const todoContext = useContext(TodoContext);
   const [todoState, setTodoState] = useState({
     checked: checked,
     removed: false,
@@ -14,8 +16,7 @@ const TodoItem = ({ id, todo, checked }: Todo) => {
     //TODO : 변경시 localStorage update
   };
   const todoRemoveHandler = () => {
-    const { checked } = todoState;
-    setTodoState({ checked: checked, removed: true });
+    todoContext.action.deleteTodo(id);
     //TODO: 삭제 될 때 마다 localStorage update
   };
 

@@ -3,13 +3,19 @@ import { TodoStorage } from "../types/todo";
 
 type TodoContextType = {
   state: { todoContext: TodoStorage };
-  action: { addTodo: (text: string) => void };
+  action: {
+    addTodo: (text: string) => void;
+    deleteTodo: (id: number) => void;
+  };
 };
 
 //#region TodoContext
 const TodoContext = createContext<TodoContextType>({
   state: { todoContext: { id: 0, todoList: [] } },
-  action: { addTodo: (text: string) => ({}) },
+  action: {
+    addTodo: (text: string) => ({}),
+    deleteTodo: (id: number) => ({}),
+  },
 });
 //#endregion
 
@@ -33,10 +39,19 @@ const TodoProvider = ({ children }: Props): JSX.Element => {
     localStorage.setItem("Todos", JSON.stringify(context));
     setTodoContext(context);
   };
-  // TODO: Add Remove Todo Object
+
+  //TODO: Need fixed deleteTodo
+  //      has trouble delete array
+  const deleteTodo = (id: number): void => {
+    const context = Object.assign({}, todoContext);
+    context.id -= 1;
+    context.todoList.splice(id, 1);
+    localStorage.setItem("Todos", JSON.stringify(context));
+    setTodoContext(context);
+  };
   const value: TodoContextType = {
     state: { todoContext: todoContext },
-    action: { addTodo: addTodo },
+    action: { addTodo: addTodo, deleteTodo: deleteTodo },
   };
   console.log("value", value);
   return <TodoContext.Provider value={value}>{children}</TodoContext.Provider>;
@@ -57,12 +72,12 @@ const initProviderTodoContext = (): TodoStorage => {
 }; // get Provider todoContext
 
 const ExampleTodoList: TodoStorage = {
-  id: 4,
+  id: 3,
   todoList: [
-    { id: 1, todo: "Todo 1", checked: false },
-    { id: 2, todo: "Todo 2", checked: false },
-    { id: 3, todo: "Todo 3", checked: false },
-    { id: 4, todo: "Todo 4", checked: false },
+    { id: 0, todo: "Todo 1", checked: false },
+    { id: 1, todo: "Todo 2", checked: false },
+    { id: 2, todo: "Todo 3", checked: false },
+    { id: 3, todo: "Todo 4", checked: false },
   ],
 };
 //#endregion
