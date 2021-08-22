@@ -6,6 +6,7 @@ type TodoContextType = {
   action: {
     addTodo: (text: string) => void;
     deleteTodo: (id: number) => void;
+    checkTodo: (id: number, check: boolean) => void;
   };
 };
 
@@ -15,6 +16,7 @@ const TodoContext = createContext<TodoContextType>({
   action: {
     addTodo: (text: string) => ({}),
     deleteTodo: (id: number) => ({}),
+    checkTodo: (id: number, check: boolean) => ({}),
   },
 });
 //#endregion
@@ -28,14 +30,11 @@ const TodoProvider = ({ children }: Props): JSX.Element => {
   const [todoContext, setTodoContext] = useState(initProviderTodoContext);
   const addTodo = (text: string): void => {
     const context = Object.assign({}, todoContext);
-    console.log("OBEJECT ASSIGN :", context);
-    context.id += 1;
     context.todoList.push({
-      id: context.id,
+      id: context.id++,
       todo: text,
       checked: false,
     });
-    console.log("Context :", context);
     localStorage.setItem("Todos", JSON.stringify(context));
     setTodoContext(context);
   };
@@ -44,14 +43,33 @@ const TodoProvider = ({ children }: Props): JSX.Element => {
   //      has trouble delete array
   const deleteTodo = (id: number): void => {
     const context = Object.assign({}, todoContext);
-    context.id -= 1;
-    context.todoList.splice(id, 1);
-    localStorage.setItem("Todos", JSON.stringify(context));
-    setTodoContext(context);
+    context.todoList.forEach((e, i) => {
+      if (e.id === id) {
+        context.id--;
+        context.todoList.splice(i, 1);
+        localStorage.setItem("Todos", JSON.stringify(context));
+        setTodoContext(context);
+        return;
+      }
+    });
+    console.log("Delete todo did not found.");
+  };
+
+  const checkTodo = (id: number, check: boolean): void => {
+    const context = Object.assign({}, todoContext);
+    context.todoList.forEach((e) => {
+      if (e.id === id) {
+        e.checked = check;
+        localStorage.setItem("Todos", JSON.stringify(context));
+        setTodoContext(context);
+        return;
+      }
+    });
+    console.log("Delete todo did not found.");
   };
   const value: TodoContextType = {
     state: { todoContext: todoContext },
-    action: { addTodo: addTodo, deleteTodo: deleteTodo },
+    action: { addTodo: addTodo, deleteTodo: deleteTodo, checkTodo: checkTodo },
   };
   console.log("value", value);
   return <TodoContext.Provider value={value}>{children}</TodoContext.Provider>;
@@ -72,7 +90,7 @@ const initProviderTodoContext = (): TodoStorage => {
 }; // get Provider todoContext
 
 const ExampleTodoList: TodoStorage = {
-  id: 3,
+  id: 4,
   todoList: [
     { id: 0, todo: "Todo 1", checked: false },
     { id: 1, todo: "Todo 2", checked: false },

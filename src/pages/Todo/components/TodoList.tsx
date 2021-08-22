@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import TodoItem from "./TodoItem";
 import { TodoConsumer, TodoContext } from "../context/TodoContext";
 
-const TodoList = React.memo(() => {
+const TodoList = () => {
   const todoContext = useContext(TodoContext);
   const todoList = todoContext.state.todoContext.todoList.map(
     ({ id, todo, checked }) => (
@@ -10,6 +10,6 @@ const TodoList = React.memo(() => {
     )
   );
   return <>{todoList}</>;
-});
+};
 
-export default React.memo(TodoList);
+export default TodoList;
